@@ -17,6 +17,7 @@ namespace Backend.Extensions
                 catch
                 {
                     Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine(EnvReader.Instance["DB_MYSQL_USER"]);
                     Console.WriteLine("Can't get DB_MYSQL!");
                     Console.ResetColor();
                 }

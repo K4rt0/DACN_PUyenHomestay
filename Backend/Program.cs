@@ -1,7 +1,9 @@
 using Backend.DataAccess;
 using Backend.Extensions;
 using Microsoft.EntityFrameworkCore;
+using DotEnv.Core;
 
+new EnvLoader().Load();
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
