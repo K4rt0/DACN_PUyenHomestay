@@ -428,3 +428,5 @@ node_modules
 .env
 .env.local
 .env.*.local
+
+dacn_puyenhomestay.sql
