@@ -18,6 +18,5 @@ namespace Backend.DataAccess
         public DbSet<Review> Reviews { get; set; }
         public DbSet<Reservation> Reservations { get; set; }
         public DbSet<ReservationDetail> ReservationDetails { get; set; }
-        public DbSet<Payment> Payments { get; set; }
     }
 }

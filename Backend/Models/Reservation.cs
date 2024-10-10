@@ -12,10 +12,10 @@ namespace Backend.Models
         public decimal total_price { get; set; } = 0;
         public ReservationStatus status { get; set; } = ReservationStatus.Pending;
         public string? reason_cancel { get; set; }
+        public PaymentMethod payment_method { get; set; } = PaymentMethod.Cash;
         
         public User? user { get; set; }
 
-        public ICollection<Payment> payments { get; set; } = new HashSet<Payment>();
         public ICollection<ReservationDetail> reservation_details { get; set; } = new HashSet<ReservationDetail>();
     }
 }
