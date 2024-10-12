@@ -10,7 +10,11 @@
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --fix --ignore-path .gitignore"
   },
   "dependencies": {
+    "@popperjs/core": "^2.11.8",
+    "@unhead/vue": "^1.11.7",
+    "axios": "^1.7.7",
     "vue": "^3.4.29",
+    "vue-axios": "^3.5.2",
     "vue-router": "^4.3.3"
   },
   "devDependencies": {
