@@ -1,4 +1,5 @@
 using Backend.Models;
+using Backend.Models.VietnamProvinces;
 using Microsoft.EntityFrameworkCore;
 
 namespace Backend.DataAccess
@@ -18,5 +19,10 @@ namespace Backend.DataAccess
         public DbSet<Review> Reviews { get; set; }
         public DbSet<Reservation> Reservations { get; set; }
         public DbSet<ReservationDetail> ReservationDetails { get; set; }
+
+        // Vietnam provinces
+        public DbSet<Province> Provinces { get; set; }  
+        public DbSet<District> Districts { get; set; }
+        public DbSet<Ward> Wards { get; set; }
     }
 }

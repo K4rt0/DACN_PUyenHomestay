@@ -47,6 +47,9 @@ namespace Backend.Migrations
                     b.Property<string>("district")
                         .HasColumnType("longtext");
 
+                    b.Property<bool>("is_locked")
+                        .HasColumnType("tinyint(1)");
+
                     b.Property<string>("name")
                         .HasColumnType("longtext");
 
@@ -123,9 +126,6 @@ namespace Backend.Migrations
                         .HasColumnName("created_at");
 
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<DateTime?>("created_at"));
-
-                    b.Property<string>("description")
-                        .HasColumnType("longtext");
 
                     b.Property<bool>("is_locked")
                         .HasColumnType("tinyint(1)");
@@ -515,6 +515,100 @@ namespace Backend.Migrations
                     b.ToTable("users");
                 });
 
+            modelBuilder.Entity("Backend.Models.VietnamProvinces.District", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("id"));
+
+                    b.Property<string>("code_name")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("full_name")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("full_name_en")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("name")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("name_en")
+                        .HasColumnType("longtext");
+
+                    b.Property<int?>("provinceid")
+                        .HasColumnType("int");
+
+                    b.HasKey("id");
+
+                    b.HasIndex("provinceid");
+
+                    b.ToTable("districts");
+                });
+
+            modelBuilder.Entity("Backend.Models.VietnamProvinces.Province", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("id"));
+
+                    b.Property<string>("code_name")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("full_name")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("full_name_en")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("name")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("name_en")
+                        .HasColumnType("longtext");
+
+                    b.HasKey("id");
+
+                    b.ToTable("provinces");
+                });
+
+            modelBuilder.Entity("Backend.Models.VietnamProvinces.Ward", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("id"));
+
+                    b.Property<string>("code_name")
+                        .HasColumnType("longtext");
+
+                    b.Property<int?>("districtid")
+                        .HasColumnType("int");
+
+                    b.Property<string>("full_name")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("full_name_en")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("name")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("name_en")
+                        .HasColumnType("longtext");
+
+                    b.HasKey("id");
+
+                    b.HasIndex("districtid");
+
+                    b.ToTable("wards");
+                });
+
             modelBuilder.Entity("Backend.Models.BranchContactDetail", b =>
                 {
                     b.HasOne("Backend.Models.BranchContact", "branch_contact")
@@ -611,6 +705,24 @@ namespace Backend.Migrations
                     b.Navigation("branch");
                 });
 
+            modelBuilder.Entity("Backend.Models.VietnamProvinces.District", b =>
+                {
+                    b.HasOne("Backend.Models.VietnamProvinces.Province", "province")
+                        .WithMany("districts")
+                        .HasForeignKey("provinceid");
+
+                    b.Navigation("province");
+                });
+
+            modelBuilder.Entity("Backend.Models.VietnamProvinces.Ward", b =>
+                {
+                    b.HasOne("Backend.Models.VietnamProvinces.District", "district")
+                        .WithMany("wards")
+                        .HasForeignKey("districtid");
+
+                    b.Navigation("district");
+                });
+
             modelBuilder.Entity("Backend.Models.Branch", b =>
                 {
                     b.Navigation("branch_contact_details");
@@ -649,6 +761,16 @@ namespace Backend.Migrations
                     b.Navigation("reservations");
 
                     b.Navigation("reviews");
+                });
+
+            modelBuilder.Entity("Backend.Models.VietnamProvinces.District", b =>
+                {
+                    b.Navigation("wards");
+                });
+
+            modelBuilder.Entity("Backend.Models.VietnamProvinces.Province", b =>
+                {
+                    b.Navigation("districts");
                 });
 #pragma warning restore 612, 618
         }

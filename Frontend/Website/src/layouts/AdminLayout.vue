@@ -1,74 +1,77 @@
 <template>
-  <div class="d-flex flex-column flex-root app-root" id="kt_app_root">
-    <div class="app-page flex-column flex-column-fluid" id="kt_app_page">
-      <AdminHeaderCompoent />
-      <div class="app-wrapper flex-column flex-row-fluid" id="kt_app_wrapper">
-        <AdminAsideComponent />
-        <div class="app-main flex-column flex-row-fluid" id="kt_app_main">
-          <div class="d-flex flex-column flex-column-fluid">
+  <div class="layout-wrapper layout-content-navbar">
+    <div class="layout-container">
+      <AdminAsideComponent />
+      <div class="layout-page">
+        <AdminHeaderCompoent />
+        <div class="content-wrapper">
+          <div class="container-xxl flex-grow-1 container-p-y">
             <router-view />
           </div>
         </div>
       </div>
     </div>
+    <div class="layout-overlay layout-menu-toggle"></div>
+    <div class="drag-target"></div>
   </div>
+  <Toaster class="me-5" position="top-right" richColors closeButton />
 </template>
 
 <style>
-@import "@/assets/plugins/custom/fullcalendar/fullcalendar.bundle.css";
-@import "@/assets/plugins/custom/datatables/datatables.bundle.css";
-@import "@/assets/plugins/global/plugins.bundle.css";
-@import "@/assets/css/style.bundle.css";
+@import "/src/assets/fontawesome/css/all.css";
+@import "/src/assets/fontawesome/css/sharp-duotone-solid.css";
+@import "/src/assets/fontawesome/css/sharp-thin.css";
+@import "/src/assets/fontawesome/css/sharp-solid.css";
+@import "/src/assets/fontawesome/css/sharp-regular.css";
+@import "/src/assets/fontawesome/css/sharp-light.css";
+@import "/src/assets/admin/vendor/fonts/boxicons.css";
 </style>
 
 <script setup>
 import AdminAsideComponent from "@/components/admin/AdminAsideComponent.vue";
 import AdminHeaderCompoent from "@/components/admin/AdminHeaderCompoent.vue";
 import { useHead } from "@unhead/vue";
-import { onBeforeMount } from "vue";
+import { onMounted } from "vue";
+import { Toaster } from "vue-sonner";
 
-onBeforeMount(() => {
-  useHead({
-    title: "Admin Layout",
-    meta: [
-      { property: "og:locale", content: "en_US" },
-      { property: "og:type", content: "article" },
-      {
-        property: "og:title",
-        content: "Metronic - The World's #1 Selling Tailwind CSS & Bootstrap Admin Template by KeenThemes",
-      },
-      { property: "og:url", content: "https://keenthemes.com/metronic" },
-      { property: "og:site_name", content: "Metronic by Keenthemes" },
-    ],
-    link: [
-      { rel: "canonical", href: "index.html" },
-      { rel: "shortcut icon", href: "/assets/media/logos/favicon.ico" },
-      {
-        rel: "stylesheet",
-        href: "https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700",
-      },
-    ],
-    bodyAttrs: {
-      id: "kt_app_body",
-      "data-kt-app-layout": "dark-sidebar",
-      "data-kt-app-header-fixed": "true",
-      "data-kt-app-sidebar-enabled": "true",
-      "data-kt-app-sidebar-fixed": "true",
-      "data-kt-app-sidebar-hoverable": "true",
-      "data-kt-app-sidebar-push-header": "true",
-      "data-kt-app-sidebar-push-toolbar": "true",
-      "data-kt-app-sidebar-push-footer": "true",
-      "data-kt-app-toolbar-enabled": "true",
-      class: "app-default",
-    },
-    script: [{ src: "/src/assets/plugins/global/plugins.bundle.js", async: false, onload: loadScriptsBundle }],
-  });
+useHead({
+  title: "Admin Layout",
+  htmlAttrs: {
+    lang: "en",
+    class: "light-style layout-navbar-fixed layout-menu-fixed layout-compact",
+    dir: "ltr",
+    "data-theme": "theme-default",
+    "data-assets-path": "/src/assets/admin/",
+    "data-template": "vertical-menu-template",
+    "data-style": "dark",
+  },
+  link: [
+    { rel: "icon", type: "image/x-icon", href: "https://demos.themeselection.com/sneat-bootstrap-html-admin-template/assets/img/favicon/favicon.ico" },
+    { href: "https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap", rel: "stylesheet" },
+    { rel: "stylesheet", href: "/src/assets/admin/vendor/css/rtl/core-dark.css" },
+    { rel: "stylesheet", href: "/src/assets/admin/vendor/css/rtl/theme-default-dark.css" },
+    { rel: "stylesheet", href: "/src/assets/admin/css/demo.css" },
+    { rel: "stylesheet", href: "/src/assets/admin/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" },
+  ],
+  script: [
+    { src: "/src/assets/admin/vendor/js/menu.js", async: true },
+    { src: "/src/assets/admin/vendor/js/bootstrap.js", async: true },
+    { src: "/src/assets/admin/vendor/js/helpers.js", async: true },
+    { src: "/src/assets/admin/vendor/libs/perfect-scrollbar/perfect-scrollbar.js", async: true },
+    { src: "/src/assets/admin/vendor/js/template-customizer.js", defer: true },
+    { src: "/src/assets/admin/js/config.js", defer: true },
+    { src: "/src/assets/admin/vendor/libs/popper/popper.js", defer: true },
+  ],
 });
 
-function loadScriptsBundle() {
-  const script = document.createElement("script");
-  script.src = "/src/assets/js/scripts.bundle.js";
-  script.defer = true;
-  document.body.appendChild(script);
-}
+onMounted(() => {
+  setTimeout(() => {
+    if (!document.querySelector(`script[src="/src/assets/admin/js/main.js"]`)) {
+      const script = document.createElement("script");
+      script.src = "/src/assets/admin/js/main.js";
+      script.defer = true;
+      document.head.appendChild(script);
+    }
+  }, 1000);
+});
 </script>

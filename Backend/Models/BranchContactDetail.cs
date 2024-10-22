@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace Backend.Models
 {
@@ -6,9 +7,10 @@ namespace Backend.Models
     public class BranchContactDetail : BaseModel
     {
         public string? value { get; set; }
-        public string? description { get; set; }
         public bool is_locked { get; set; } = false;
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public Branch? branch { get; set; }
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public BranchContact? branch_contact { get; set; }
     }
 }

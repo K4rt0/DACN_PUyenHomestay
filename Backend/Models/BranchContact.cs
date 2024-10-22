@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace Backend.Models
 {
@@ -8,6 +9,7 @@ namespace Backend.Models
         public string? name { get; set; }
         public string? contact_icon { get; set; }
 
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public ICollection<BranchContactDetail> branch_contact_details { get; set; } = new HashSet<BranchContactDetail>();
     }
 }

@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Backend.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/user")]
     public class UserController : ControllerBase
     {
         private readonly IUserService _userService;
@@ -160,15 +160,12 @@ namespace Backend.Controllers
             if (await _userService.GetByEmailAsync(user.email!) != null)
                 return new ReturnApi(false, "Email đã tồn tại !");
 
-            if (await _userService.GetByIdentifierAsync(user.identifier!))
-                return new ReturnApi(false, "CMND/CCCD đã tồn tại !");
-
             user.password = AuthService.HashPassword(user.password);
             var createUserResult = await _userService.CreateAsync(user);
             if (createUserResult == null)
                 return new ReturnApi(false);
 
-            createUserResult.password = null;
+            createUserResult.password = "";
             return new ReturnApi(true, "Đăng ký tài khoản thành công!", createUserResult);
         }
 
