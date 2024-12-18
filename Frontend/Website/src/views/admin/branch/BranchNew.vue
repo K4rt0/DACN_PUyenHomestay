@@ -173,7 +173,7 @@ const add_contact = async () => {
         toast.success("Tạo mới chi nhánh thành công !");
       } else {
         loading.value = false;
-        toast.error("Đã có lỗi xảy ra khi tạo mới chi nhánh !");
+        toast.error(response.data.message);
       }
     } catch (error) {
       loading.value = false;

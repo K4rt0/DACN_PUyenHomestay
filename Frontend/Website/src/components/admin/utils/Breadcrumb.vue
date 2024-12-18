@@ -3,7 +3,7 @@
     <div class="nav-item navbar-search-wrapper">
       <ol class="breadcrumb mb-0">
         <li class="breadcrumb-item">
-          <router-link :to="{ name: 'admin_dashboard' }">Home</router-link>
+          <router-link :to="{ name: 'admin_home' }">Trang chính</router-link>
         </li>
         <template v-for="(page, index) in breadcrumbs" :key="index">
           <li v-if="index < breadcrumbs.length - 1" class="breadcrumb-item">
@@ -17,10 +17,9 @@
 </template>
 
 <script setup>
-import { useStore } from "vuex";
 import { computed } from "vue";
+import { useBreadcrumbStore } from "@/stores/useBreadcrumbStore";
 
-const store = useStore();
-
-const breadcrumbs = computed(() => store.getters.getBreadcrumbs);
+const breadcrumbStore = useBreadcrumbStore();
+const breadcrumbs = computed(() => breadcrumbStore.getBreadcrumbs);
 </script>

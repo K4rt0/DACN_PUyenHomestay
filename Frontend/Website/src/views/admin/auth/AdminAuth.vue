@@ -40,13 +40,12 @@
 import { ref } from "vue";
 import { toast } from "vue-sonner";
 import axios from "@/utils/axios";
-import router from "@/router";
 
 let email = ref("");
 let password = ref("");
 let loading = ref(false);
 
-function login() {
+const login = async () => {
   loading.value = true;
   if (email.value === "" || password.value === "") {
     loading.value = false;
@@ -56,25 +55,19 @@ function login() {
     formData.append("email", email.value);
     formData.append("password", password.value);
 
-    axios
-      .post("/admin/login", formData)
-      .then((response) => {
-        const res = response.data;
-        if (res.success) {
-          toast.success("Đăng nhập thành công !");
-          localStorage.setItem("jwt_admin_token", res.data.token);
-          localStorage.setItem("admin_user_data", JSON.stringify(res.data));
-          setTimeout(() => {
-            router.push({ name: "admin_dashboard" });
-          }, 1000);
-        } else {
-          toast.warning(res.message);
-        }
-        loading.value = false;
-      })
-      .catch(() => {
-        loading.value = false;
-      });
+    try {
+      const response = await axios.post("/admin/login", formData);
+      if (response.data.success) {
+        toast.success("Đăng nhập thành công !");
+        localStorage.setItem("jwt_admin_token", response.data.data.token);
+        localStorage.setItem("hotel_admin_role", response.data.data.role);
+        setTimeout(() => {
+          window.location.href = "/admin";
+        }, 1000);
+      } else toast.warning(response.data.message);
+    } finally {
+      loading.value = false;
+    }
   }
-}
+};
 </script>

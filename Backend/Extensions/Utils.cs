@@ -10,6 +10,7 @@ namespace Backend.Extensions
 {
     public class Utils
     {
+        #region JWT
         public static string DB_MYSQL
         {
             get
@@ -31,7 +32,6 @@ namespace Backend.Extensions
             }
         }
 
-        #region JWT
         public static string SALT = EnvReader.Instance["SALT"];
         private static string JWT_HEADER => "{\"alg\":\"HS256\",\"typ\":\"JWT\"}";
 
@@ -67,11 +67,10 @@ namespace Backend.Extensions
             return Base64encode(new HMACSHA256(Encoding.UTF8.GetBytes(secret)).ComputeHash(Encoding.UTF8.GetBytes(data)));
         }
 
-        public static string GetJWT(int id, string time, int time_set)
+        public static string GetJWT(string time, int time_set, Dictionary<string, object>? customData = null)
         {
             JWToken payload = new();
             DateTimeOffset now = DateTimeOffset.Now;
-            payload.user_id = id;
             payload.iat = now.ToUnixTimeSeconds();
             switch (time)
             {
@@ -97,6 +96,7 @@ namespace Backend.Extensions
                     payload.exp = now.AddDays(7).ToUnixTimeSeconds();
                     break;
             }
+            payload.custom_data = customData;
             string Header_Payload = Base64encode(JWT_HEADER) + "." + Base64encode(JsonConvert.SerializeObject(payload));
             string signature = HmacSha256(Header_Payload, EnvReader.Instance["SALT"]);
             return Header_Payload + "." + signature;
@@ -111,10 +111,12 @@ namespace Backend.Extensions
                 string signature = parts[2];
                 if (payload != null)
                 {
-                    if (payload.exp > 0 && payload.exp < DateTimeOffset.Now.ToUnixTimeSeconds()) return null;
+                    if (payload.exp > 0 && payload.exp < DateTimeOffset.Now.ToUnixTimeSeconds())
+                        return new JWToken { is_expired = true };
 
                     string headerAndPayloadHashed = HmacSha256(parts[0] + "." + parts[1], EnvReader.Instance["SALT"]);
-                    if (headerAndPayloadHashed == signature) return payload;
+                    if (headerAndPayloadHashed == signature)
+                        return payload;
                 }
                 return null;
             }
@@ -131,7 +133,7 @@ namespace Backend.Extensions
             }
             return null;
         }
-
+        #endregion
         public static bool IsValidEmail(string email)
         {
             if (string.IsNullOrWhiteSpace(email))
@@ -154,16 +156,21 @@ namespace Backend.Extensions
             return regex.IsMatch(phoneNumber);
         }
 
-        public static bool IsValidVietnamIdentifier(string identifier)
+        public static bool IsValidRoomNumber(string roomNumber)
         {
-            if (string.IsNullOrWhiteSpace(identifier))
-                return false;
-
-            string pattern = @"^\d{9}$|^\d{12}$";
-            Regex regex = new Regex(pattern);
-
-            return regex.IsMatch(identifier);
+            string pattern = @"^\d+\.\d+$";
+            return Regex.IsMatch(roomNumber, pattern);
         }
-        #endregion
+
+        public static string SEOUrl(string fileName)
+        {
+            string normalized = fileName.Normalize(NormalizationForm.FormD);
+            Regex pattern = new Regex("\\p{IsCombiningDiacriticalMarks}+");
+            string seoFileName = pattern.Replace(normalized, "");
+            seoFileName = seoFileName.ToLowerInvariant();
+            seoFileName = Regex.Replace(seoFileName, "[^a-z0-9\\-]", "-");
+            seoFileName = Regex.Replace(seoFileName, "-+", "-");
+            return seoFileName;
+        }
     }
 }

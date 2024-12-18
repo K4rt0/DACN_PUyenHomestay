@@ -140,9 +140,7 @@ const toggle_status = async (item) => {
     });
     if (response.data.success) {
       toast.success("Cập nhật trạng thái thành công !");
-      console.log(items.value);
       items.value.find((i) => i.id === item.id).is_locked = !item.is_locked;
-      console.log(items.value);
     } else toast.error(response.data.message);
   } finally {
   }
@@ -225,7 +223,6 @@ function close_modal_delete() {
 }
 
 const confirm_delete = async () => {
-  console.log(branch_delete.value);
   if (branch_delete.value != null) {
     try {
       const response = await axios.delete(`/branch/${branch_delete.value.id}`, {

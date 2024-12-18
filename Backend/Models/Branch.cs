@@ -19,8 +19,6 @@ namespace Backend.Models
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public ICollection<Room> rooms { get; set; } = new HashSet<Room>();
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public ICollection<Review> reviews { get; set; } = new HashSet<Review>();
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public ICollection<User> users { get; set; } = new HashSet<User>();
     }
 }

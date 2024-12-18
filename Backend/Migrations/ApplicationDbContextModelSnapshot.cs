@@ -168,12 +168,6 @@ namespace Backend.Migrations
                     b.Property<int?>("facilityid")
                         .HasColumnType("int");
 
-                    b.Property<bool>("is_bed")
-                        .HasColumnType("tinyint(1)");
-
-                    b.Property<int>("quantity")
-                        .HasColumnType("int");
-
                     b.Property<int?>("roomid")
                         .HasColumnType("int");
 
@@ -229,144 +223,77 @@ namespace Backend.Migrations
 
             modelBuilder.Entity("Backend.Models.Reservation", b =>
                 {
-                    b.Property<int>("id")
+                    b.Property<Guid>("booking_id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasColumnName("id");
+                        .HasColumnType("char(36)");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("id"));
+                    b.Property<DateOnly?>("check_in")
+                        .HasColumnType("date");
 
-                    b.Property<DateTime?>("check_in")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<DateTime?>("check_out")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<DateTime?>("created_at")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime(6)")
-                        .HasColumnName("created_at");
-
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<DateTime?>("created_at"));
-
-                    b.Property<int>("guest_amount")
-                        .HasColumnType("int");
-
-                    b.Property<int>("payment_method")
-                        .HasColumnType("int");
-
-                    b.Property<string>("reason_cancel")
-                        .HasColumnType("longtext");
-
-                    b.Property<int>("status")
-                        .HasColumnType("int");
-
-                    b.Property<decimal>("total_price")
-                        .HasColumnType("decimal(65,30)");
-
-                    b.Property<DateTime?>("updated_at")
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("datetime(6)")
-                        .HasColumnName("updated_at");
-
-                    MySqlPropertyBuilderExtensions.UseMySqlComputedColumn(b.Property<DateTime?>("updated_at"));
-
-                    b.Property<int?>("userid")
-                        .HasColumnType("int");
-
-                    b.HasKey("id");
-
-                    b.HasIndex("userid");
-
-                    b.ToTable("reservations");
-                });
-
-            modelBuilder.Entity("Backend.Models.ReservationDetail", b =>
-                {
-                    b.Property<int>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasColumnName("id");
-
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("id"));
-
-                    b.Property<DateTime?>("created_at")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime(6)")
-                        .HasColumnName("created_at");
-
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<DateTime?>("created_at"));
-
-                    b.Property<decimal>("price")
-                        .HasColumnType("decimal(65,30)");
-
-                    b.Property<int>("quantity")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("reservationid")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("roomid")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime?>("updated_at")
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("datetime(6)")
-                        .HasColumnName("updated_at");
-
-                    MySqlPropertyBuilderExtensions.UseMySqlComputedColumn(b.Property<DateTime?>("updated_at"));
-
-                    b.HasKey("id");
-
-                    b.HasIndex("reservationid");
-
-                    b.HasIndex("roomid");
-
-                    b.ToTable("reservation_details");
-                });
-
-            modelBuilder.Entity("Backend.Models.Review", b =>
-                {
-                    b.Property<int>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasColumnName("id");
-
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("id"));
-
-                    b.Property<int?>("branchid")
-                        .HasColumnType("int");
+                    b.Property<DateOnly?>("check_out")
+                        .HasColumnType("date");
 
                     b.Property<string>("comment")
                         .HasColumnType("longtext");
 
                     b.Property<DateTime?>("created_at")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime(6)")
-                        .HasColumnName("created_at");
+                        .HasColumnType("datetime(6)");
 
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<DateTime?>("created_at"));
 
-                    b.Property<byte>("rating")
-                        .HasColumnType("tinyint unsigned");
+                    b.Property<string>("email")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("first_name")
+                        .HasColumnType("longtext");
+
+                    b.Property<int>("guest_amount")
+                        .HasColumnType("int");
+
+                    b.Property<string>("last_name")
+                        .HasColumnType("longtext");
+
+                    b.Property<int>("payment_method")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("payment_status")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("phone")
+                        .HasColumnType("longtext");
+
+                    b.Property<int?>("rating")
+                        .HasColumnType("int");
+
+                    b.Property<int>("reward_points")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("roomid")
+                        .HasColumnType("int");
+
+                    b.Property<int>("status")
+                        .HasColumnType("int");
+
+                    b.Property<double>("total_price")
+                        .HasColumnType("double");
 
                     b.Property<DateTime?>("updated_at")
                         .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("datetime(6)")
-                        .HasColumnName("updated_at");
+                        .HasColumnType("datetime(6)");
 
                     MySqlPropertyBuilderExtensions.UseMySqlComputedColumn(b.Property<DateTime?>("updated_at"));
 
                     b.Property<int?>("userid")
                         .HasColumnType("int");
 
-                    b.HasKey("id");
+                    b.HasKey("booking_id");
 
-                    b.HasIndex("branchid");
+                    b.HasIndex("roomid");
 
                     b.HasIndex("userid");
 
-                    b.ToTable("reviews");
+                    b.ToTable("reservations");
                 });
 
             modelBuilder.Entity("Backend.Models.Room", b =>
@@ -391,8 +318,17 @@ namespace Backend.Migrations
 
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<DateTime?>("created_at"));
 
-                    b.Property<int>("room_number")
+                    b.Property<bool>("is_locked")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<int>("room_max_adults")
                         .HasColumnType("int");
+
+                    b.Property<string>("room_name")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("room_number")
+                        .HasColumnType("longtext");
 
                     b.Property<int>("room_width")
                         .HasColumnType("int");
@@ -430,6 +366,9 @@ namespace Backend.Migrations
                     b.Property<int?>("roomid")
                         .HasColumnType("int");
 
+                    b.Property<string>("type")
+                        .HasColumnType("longtext");
+
                     b.Property<DateTime?>("updated_at")
                         .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("datetime(6)")
@@ -456,9 +395,6 @@ namespace Backend.Migrations
 
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("id"));
 
-                    b.Property<DateOnly?>("birthday")
-                        .HasColumnType("date");
-
                     b.Property<int?>("branchid")
                         .HasColumnType("int");
 
@@ -476,10 +412,6 @@ namespace Backend.Migrations
                     b.Property<string>("full_name")
                         .HasMaxLength(255)
                         .HasColumnType("varchar(255)");
-
-                    b.Property<string>("identifier")
-                        .HasMaxLength(20)
-                        .HasColumnType("varchar(20)");
 
                     b.Property<bool>("is_locked")
                         .HasColumnType("tinyint(1)");
@@ -641,39 +573,15 @@ namespace Backend.Migrations
 
             modelBuilder.Entity("Backend.Models.Reservation", b =>
                 {
+                    b.HasOne("Backend.Models.Room", "room")
+                        .WithMany("reservations")
+                        .HasForeignKey("roomid");
+
                     b.HasOne("Backend.Models.User", "user")
                         .WithMany("reservations")
                         .HasForeignKey("userid");
 
-                    b.Navigation("user");
-                });
-
-            modelBuilder.Entity("Backend.Models.ReservationDetail", b =>
-                {
-                    b.HasOne("Backend.Models.Reservation", "reservation")
-                        .WithMany("reservation_details")
-                        .HasForeignKey("reservationid");
-
-                    b.HasOne("Backend.Models.Room", "room")
-                        .WithMany()
-                        .HasForeignKey("roomid");
-
-                    b.Navigation("reservation");
-
                     b.Navigation("room");
-                });
-
-            modelBuilder.Entity("Backend.Models.Review", b =>
-                {
-                    b.HasOne("Backend.Models.Branch", "branch")
-                        .WithMany("reviews")
-                        .HasForeignKey("branchid");
-
-                    b.HasOne("Backend.Models.User", "user")
-                        .WithMany("reviews")
-                        .HasForeignKey("userid");
-
-                    b.Navigation("branch");
 
                     b.Navigation("user");
                 });
@@ -727,8 +635,6 @@ namespace Backend.Migrations
                 {
                     b.Navigation("branch_contact_details");
 
-                    b.Navigation("reviews");
-
                     b.Navigation("rooms");
 
                     b.Navigation("users");
@@ -744,14 +650,11 @@ namespace Backend.Migrations
                     b.Navigation("facilities_rooms");
                 });
 
-            modelBuilder.Entity("Backend.Models.Reservation", b =>
-                {
-                    b.Navigation("reservation_details");
-                });
-
             modelBuilder.Entity("Backend.Models.Room", b =>
                 {
                     b.Navigation("facilities_rooms");
+
+                    b.Navigation("reservations");
 
                     b.Navigation("room_images");
                 });
@@ -759,8 +662,6 @@ namespace Backend.Migrations
             modelBuilder.Entity("Backend.Models.User", b =>
                 {
                     b.Navigation("reservations");
-
-                    b.Navigation("reviews");
                 });
 
             modelBuilder.Entity("Backend.Models.VietnamProvinces.District", b =>

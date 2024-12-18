@@ -1,7 +1,3 @@
-<script setup>
-import Breadcrumb from "./utils/Breadcrumb.vue";
-</script>
-
 <template>
   <nav class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme" id="layout-navbar">
     <div class="layout-menu-toggle navbar-nav align-items-xl-center me-4 me-xl-0 d-xl-none">
@@ -27,12 +23,12 @@ import Breadcrumb from "./utils/Breadcrumb.vue";
                 <div class="d-flex">
                   <div class="flex-shrink-0 me-3">
                     <div class="avatar avatar-online">
-                      <img src="../../assets/img/avatars/1.png" alt="" class="w-px-40 h-auto rounded-circle" />
+                      <img src="../../assets/admin/img/avatars/1.png" alt="" class="w-px-40 h-auto rounded-circle" />
                     </div>
                   </div>
                   <div class="flex-grow-1">
-                    <h6 class="mb-0">John sss</h6>
-                    <small class="text-muted">Admin</small>
+                    <h6 class="mb-0">{{ is_root() ? "Root Account" : user?.full_name }}</h6>
+                    <small class="text-muted">{{ is_root() ? "Root" : user?.role }}</small>
                   </div>
                 </div>
               </a>
@@ -41,33 +37,7 @@ import Breadcrumb from "./utils/Breadcrumb.vue";
               <div class="dropdown-divider my-1"></div>
             </li>
             <li>
-              <a class="dropdown-item" href="pages-profile-user.html"> <i class="bx bx-user bx-md me-3"></i><span>My Profile</span> </a>
-            </li>
-            <li>
-              <a class="dropdown-item" href="pages-account-settings-account.html"> <i class="bx bx-cog bx-md me-3"></i><span>Settings</span> </a>
-            </li>
-            <li>
-              <a class="dropdown-item" href="pages-account-settings-billing.html">
-                <span class="d-flex align-items-center align-middle">
-                  <i class="flex-shrink-0 bx bx-credit-card bx-md me-3"></i><span class="flex-grow-1 align-middle">Billing Plan</span>
-                  <span class="flex-shrink-0 badge rounded-pill bg-danger">4</span>
-                </span>
-              </a>
-            </li>
-            <li>
-              <div class="dropdown-divider my-1"></div>
-            </li>
-            <li>
-              <a class="dropdown-item" href="pages-pricing.html"> <i class="bx bx-dollar bx-md me-3"></i><span>Pricing</span> </a>
-            </li>
-            <li>
-              <a class="dropdown-item" href="pages-faq.html"> <i class="bx bx-help-circle bx-md me-3"></i><span>FAQ</span> </a>
-            </li>
-            <li>
-              <div class="dropdown-divider my-1"></div>
-            </li>
-            <li>
-              <a class="dropdown-item" href="auth-login-cover.html" target="_blank"> <i class="bx bx-power-off bx-md me-3"></i><span>Log Out</span> </a>
+              <button class="dropdown-item" @click="logout"><i class="bx bx-power-off bx-md me-3"></i><span>Log Out</span></button>
             </li>
           </ul>
         </li>
@@ -82,3 +52,44 @@ import Breadcrumb from "./utils/Breadcrumb.vue";
     </div>
   </nav>
 </template>
+
+<script setup>
+import { ref, onMounted } from "vue";
+import Breadcrumb from "./utils/Breadcrumb.vue";
+import axios from "@/utils/axios";
+
+const user = ref(null);
+
+const fetchUser = async () => {
+  const jwt_token = localStorage.getItem("jwt_admin_token");
+  if (jwt_token) {
+    const response = await axios.get("/admin/me", {
+      headers: {
+        Authorization: `Bearer ${jwt_token}`,
+      },
+    });
+    if (response.data.success) {
+      user.value = response.data.data;
+      localStorage.setItem("hotel_admin_role", response.data.data.role);
+    } else {
+      localStorage.removeItem("jwt_admin_token");
+      localStorage.removeItem("hotel_admin_role");
+      window.location.href = "/admin/login";
+    }
+  }
+};
+
+onMounted(() => {
+  fetchUser();
+});
+
+const is_root = () => {
+  const role = localStorage.getItem("hotel_admin_role");
+  return role && role.toLowerCase() === "root";
+};
+const logout = () => {
+  localStorage.removeItem("jwt_admin_token");
+  localStorage.removeItem("hotel_admin_role");
+  window.location.href = "/admin/login";
+};
+</script>

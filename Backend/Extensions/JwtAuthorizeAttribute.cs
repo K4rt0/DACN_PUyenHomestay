@@ -1,6 +1,7 @@
 using Backend.Models;
 using Backend.Models.Enums;
 using Backend.Services;
+using DotEnv.Core;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 
@@ -32,20 +33,39 @@ namespace Backend.Extensions
                 if (strings.Length == 2 && strings[0] == "Bearer")
                 {
                     JWToken? jWToken = Utils.ParseJWT(strings[1]);
-                    if (jWToken != null)
+                    if (jWToken != null && jWToken.is_expired == false)
                     {
-                        context.HttpContext.Items.TryAdd("user_id", jWToken.user_id);
+                        var customDataValue = jWToken.custom_data?.ToList()[0].Value;
+                        int user_id;
+                        if (customDataValue != null)
+                        {
+                            user_id = int.Parse(customDataValue.ToString()!);
+                            context.HttpContext.Items.TryAdd("user_id", user_id);
+                        }
+                        else
+                        {
+                            returnApi.message = "Phiên đăng nhập không thể xác minh, vui lòng thử lại!";
+                            context.Result = new ObjectResult(returnApi);
+                            return;
+                        }
+                        context.HttpContext.Items.TryAdd("user_id", jWToken.custom_data?.ToList()[0].Value);
 
                         if (_checkRole)
                         {
+                            context.HttpContext.Items.TryAdd("is_root", false);
                             var userService = (IUserService)context.HttpContext.RequestServices.GetService(typeof(IUserService))!;
                             if (userService == null)
                             {
                                 context.Result = new StatusCodeResult(StatusCodes.Status500InternalServerError);
                                 return;
                             }
-                            User? user = userService.GetByIdAsync(jWToken.user_id).Result;
-                            
+                            if (user_id == 0 && (string)jWToken.custom_data!.ToList()[1].Value == EnvReader.Instance["ROOT_ADMIN_USER"])
+                            {
+                                context.HttpContext.Items["is_root"] = true;
+                                return;
+                            }
+                            User? user = userService.GetByIdAsync(user_id).Result;
+
                             if (user == null || ((_userRole == UserRole.Manager || _userRole == UserRole.Staff) && user.role == UserRole.Customer))
                             {
                                 returnApi.message = "Bạn không có quyền truy cập!";

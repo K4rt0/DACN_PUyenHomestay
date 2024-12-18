@@ -1,0 +1,94 @@
+<html>
+  <head>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+        padding: 0;
+      }
+      .email-container {
+        max-width: 600px;
+        margin: 20px auto;
+        background-color: #ffffff;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+      }
+      .header {
+        background-color: #4caf50;
+        color: #ffffff;
+        padding: 20px;
+        text-align: center;
+      }
+      .header img {
+        max-width: 100px;
+        margin-bottom: 10px;
+      }
+      .header h1 {
+        margin: 0;
+      }
+      .content {
+        padding: 20px;
+      }
+      .content img {
+        width: 100%;
+        margin: 20px 0;
+        border-radius: 8px;
+      }
+      .content p {
+        font-size: 16px;
+        line-height: 1.6;
+      }
+      .verify-button {
+        display: block;
+        width: 200px;
+        margin: 20px auto;
+        text-align: center;
+        background-color: #4caf50;
+        color: #ffffff !important;
+        text-decoration: none;
+        padding: 12px 20px;
+        border-radius: 5px;
+        font-size: 16px;
+        font-weight: bold;
+      }
+      .verify-button:hover {
+        background-color: #45a049;
+      }
+      .footer {
+        background-color: #f1f1f1;
+        padding: 15px;
+        text-align: center;
+        font-size: 14px;
+        color: #888;
+      }
+      .subtitle {
+        margin: 0;
+        font-size: 13px !important;
+        font-weight: bold;
+        color: #ff0000;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="email-container">
+      <div class="header">
+        <h1>Xác Thực Tài Khoản</h1>
+      </div>
+      <div class="content">
+        <p>Xin chào <b>{{full_name}}</b>,</p>
+        <p>Cảm ơn bạn đã đăng ký tài khoản tại hệ thống của chúng tôi. Vui lòng nhấn vào nút bên dưới để xác thực tài khoản của bạn:</p>
+
+        <!-- Nút xác thực -->
+        <a class="verify-button" href="{{verification_link}}" target="_blank"> Xác Thực Tài Khoản </a>
+        <p class="subtitle">* Mã xác thực tài khoản này chỉ tồn tại trong 5 phút.</p>
+
+        <p>Nếu bạn không thực hiện yêu cầu này, vui lòng bỏ qua email này. Xin cảm ơn!</p>
+      </div>
+      <div class="footer">
+        <p>&copy; 2024 Hệ thống đặt phòng ABC. Mọi quyền được bảo lưu.</p>
+      </div>
+    </div>
+  </body>
+</html>

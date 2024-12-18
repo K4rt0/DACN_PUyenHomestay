@@ -14,11 +14,11 @@ namespace Backend.Repositories
         }
         public async Task<ICollection<BranchContactDetail>> GetAllAsync()
         {
-            return await _context.BranchContactDetails.Include(p => p.branch).ToListAsync();
+            return await _context.BranchContactDetails!.Include(p => p.branch).ToListAsync();
         }
         public async Task<BranchContactDetail> GetByIdAsync(int id)
         {
-            return await _context.BranchContactDetails.FirstOrDefaultAsync(f => f.id == id) ?? null!;
+            return await _context.BranchContactDetails!.FirstOrDefaultAsync(f => f.id == id) ?? null!;
         }
         public async Task<BranchContactDetail> CreateAsync(BranchContactDetail branchContactDetail)
         {
@@ -28,13 +28,13 @@ namespace Backend.Repositories
             if (branchContactDetail.branch_contact == null || branchContactDetail.branch_contact.id == 0)
                 throw new ArgumentException("Branch contact is null or has an invalid id.");
 
-            BranchContact? branchContact = await _context.BranchContacts.FirstOrDefaultAsync(f => f.id == branchContactDetail.branch_contact.id);
+            BranchContact? branchContact = await _context.BranchContacts!.FirstOrDefaultAsync(f => f.id == branchContactDetail.branch_contact.id);
             if (branchContact == null)
                 throw new ArgumentException("Branch contact not found.");
-                
+
             branchContactDetail.branch_contact = branchContact;
 
-            await _context.BranchContactDetails.AddAsync(branchContactDetail);
+            await _context.BranchContactDetails!.AddAsync(branchContactDetail);
             await _context.SaveChangesAsync();
             return branchContactDetail;
         }
@@ -43,12 +43,12 @@ namespace Backend.Repositories
             if (branchContactDetail == null)
                 return null!;
 
-            BranchContactDetail? existingBranchContactDetail = await _context.BranchContactDetails
+            BranchContactDetail? existingBranchContactDetail = await _context.BranchContactDetails!
                 .FirstOrDefaultAsync(f => f.id == branchContactDetail.id);
 
             if (existingBranchContactDetail != null)
             {
-                _context.BranchContactDetails.Remove(existingBranchContactDetail);
+                _context.BranchContactDetails!.Remove(existingBranchContactDetail);
                 await _context.SaveChangesAsync(); // Save changes after removal
             }
 
@@ -60,7 +60,7 @@ namespace Backend.Repositories
             if (branchContactDetail == null)
                 return null!;
 
-            BranchContactDetail? existingBranchContactDetail = await _context.BranchContactDetails.FirstOrDefaultAsync(f => f.id == branchContactDetail.id);
+            BranchContactDetail? existingBranchContactDetail = await _context.BranchContactDetails!.FirstOrDefaultAsync(f => f.id == branchContactDetail.id);
             if (existingBranchContactDetail == null)
                 return null!;
 

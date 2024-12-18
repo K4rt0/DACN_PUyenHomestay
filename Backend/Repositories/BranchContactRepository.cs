@@ -16,12 +16,12 @@ namespace Backend.Repositories
 
         public async Task<ICollection<BranchContact>> GetAllAsync()
         {
-            return await _context.BranchContacts.ToListAsync();
+            return await _context.BranchContacts!.ToListAsync();
         }
 
         public async Task<BranchContact> GetByIdAsync(int id)
         {
-            return await _context.BranchContacts.FirstOrDefaultAsync(f => f.id == id) ?? null!;
+            return await _context.BranchContacts!.FirstOrDefaultAsync(f => f.id == id) ?? null!;
         }
 
         public async Task<BranchContact> CreateAsync(BranchContact branchContact)
@@ -32,7 +32,7 @@ namespace Backend.Repositories
             branchContact.created_at = DateTime.UtcNow;
             branchContact.updated_at = DateTime.UtcNow;
 
-            await _context.BranchContacts.AddAsync(branchContact);
+            await _context.BranchContacts!.AddAsync(branchContact);
             await _context.SaveChangesAsync();
             return branchContact;
         }
@@ -42,11 +42,11 @@ namespace Backend.Repositories
             if (branchContact == null)
                 return null!;
 
-            BranchContact? existingBranchContact = await _context.BranchContacts.FirstOrDefaultAsync(f => f.id == id);
-            if(existingBranchContact == null)
+            BranchContact? existingBranchContact = await _context.BranchContacts!.FirstOrDefaultAsync(f => f.id == id);
+            if (existingBranchContact == null)
                 return null!;
 
-            _context.BranchContacts.Remove(branchContact);
+            _context.BranchContacts!.Remove(branchContact);
             await _context.SaveChangesAsync();
             return existingBranchContact ?? null!;
         }
@@ -56,7 +56,7 @@ namespace Backend.Repositories
             if (branchContact == null)
                 return null!;
 
-            BranchContact? existingBranchContact = await _context.BranchContacts.FirstOrDefaultAsync(f => f.id == id);
+            BranchContact? existingBranchContact = await _context.BranchContacts!.FirstOrDefaultAsync(f => f.id == id);
             if (existingBranchContact == null)
                 return null!;
 
@@ -64,7 +64,7 @@ namespace Backend.Repositories
             existingBranchContact.contact_icon = branchContact.contact_icon;
             existingBranchContact.updated_at = DateTime.UtcNow;
 
-            _context.BranchContacts.Update(existingBranchContact);
+            _context.BranchContacts!.Update(existingBranchContact);
             await _context.SaveChangesAsync();
             return existingBranchContact;
         }

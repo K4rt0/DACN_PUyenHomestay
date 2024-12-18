@@ -1,0 +1,99 @@
+<html>
+  <head>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+        padding: 0;
+      }
+      .email-container {
+        max-width: 600px;
+        margin: 20px auto;
+        background-color: #ffffff;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+      }
+      .header {
+        color: #ffffff;
+        padding: 20px;
+        text-align: center;
+      }
+      .header img {
+        max-width: 100px;
+        margin-bottom: 10px;
+      }
+      .header h1 {
+        margin: 0;
+      }
+      .header.header__success {
+        background-color: #4caf50;
+      }
+      .header.header__cancel {
+        background-color: #dc4545;
+      }
+      .content {
+        padding: 20px;
+      }
+      .content img {
+        width: 100%;
+        margin: 20px 0;
+        border-radius: 8px;
+      }
+      .content p {
+        font-size: 16px;
+        line-height: 1.6;
+      }
+      .order-details {
+        margin-top: 20px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        padding: 15px;
+        background-color: #f9f9f9;
+      }
+      .order-details ul {
+        list-style: none;
+        padding: 0;
+      }
+      .order-details ul li {
+        margin: 8px 0;
+      }
+      .footer {
+        background-color: #f1f1f1;
+        padding: 15px;
+        text-align: center;
+        font-size: 14px;
+        color: #888;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="email-container">
+      <div class="header {{Color}}">
+        <h1>{{Title}}</h1>
+      </div>
+      <div class="content">
+        <p>Xin chào <b>{{CustomerName}}</b>,</p>
+        <p>{{Header}}</p>
+
+        <img src="{{ImageLink}}" alt="Hình khách sạn" />
+
+        <div class="order-details">
+          <h3>Chi tiết đơn đặt phòng:</h3>
+          <ul>
+            <li><b>Khách sạn:</b> {{HotelName}}</li>
+            <li><b>Phòng:</b> {{RoomType}}</li>
+            <li><b>Ngày nhận phòng:</b> {{CheckInDate}}</li>
+            <li><b>Ngày trả phòng:</b> {{CheckOutDate}}</li>
+            <li><b>Tổng tiền:</b> {{TotalAmount}} VNĐ</li>
+          </ul>
+        </div>
+        <p>{{Footer}}</p>
+      </div>
+      <div class="footer">
+        <p>&copy; 2024 Hệ thống đặt phòng ABC. Mọi quyền được bảo lưu.</p>
+      </div>
+    </div>
+  </body>
+</html>

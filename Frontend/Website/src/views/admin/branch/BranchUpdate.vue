@@ -376,7 +376,7 @@ const fetchWards = async () => {
 function onProvinceChange() {
   if (branch.value.province) {
     axios
-      .get(`/vietnam/districts/${branch.value.province}`)
+      .get(`/vietnam/districts/${get_province_id(branch.value.province)}`)
       .then((response) => {
         districts.value = response.data.data;
         wards.value = [];

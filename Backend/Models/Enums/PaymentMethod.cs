@@ -2,8 +2,8 @@ namespace Backend.Models.Enums
 {
     public enum PaymentMethod
     {
-        CreditCard,
-        Cash,
-        BankTransfer
+        PayInHotel = 0,
+        VNPay = 1,
+        Momo = 2,
     }
 }

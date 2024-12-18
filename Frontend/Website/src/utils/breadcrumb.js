@@ -1,6 +1,6 @@
-import { useStore } from "vuex";
+import { useBreadcrumbStore } from "@/stores/useBreadcrumbStore";
 
 export default function breadcrumb(routers) {
-  const store = useStore();
-  store.dispatch("updateBreadcrumbs", routers);
+  const breadcrumbStore = useBreadcrumbStore();
+  breadcrumbStore.updateBreadcrumbs(routers);
 }
