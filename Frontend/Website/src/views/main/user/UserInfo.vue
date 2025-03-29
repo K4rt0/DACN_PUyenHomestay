@@ -127,7 +127,9 @@
                     <div class="d-flex align-items-center">
                       <img :src="'https://i.imgur.com/' + reservation.room.room_images[0].url + reservation.room.room_images[0].type" style="height: 200px" alt="" class="img-fluid me-3" />
                       <div class="form-group mb-0">
-                        <p class="mb-3 text-dark">Booking ID: {{ reservation.booking_id }}</p>
+                        <p class="mb-3 text-dark">
+                          Booking ID: <a :href="`/booking/${reservation.booking_id}`">{{ reservation.booking_id }}</a>
+                        </p>
                         <div class="form-group mb-0">
                           <h5>
                             {{ reservation.room.branch.name }} - {{ reservation.room.room_name }} - <span :class="get_reservation_status(reservation.status).color">{{ get_reservation_status(reservation.status).message }}</span>

@@ -4,6 +4,7 @@
       <div>
         <h5 class="card-title mb-0">Doanh thu</h5>
         <p class="card-subtitle my-0">Các đơn đặt phòng đã hoàn thành</p>
+        <p class="card-subtitle my-0">Tổng doanh thu của năm {{ year }}: {{ sum.toLocaleString("vi-VN", { style: "currency", currency: "VND" }) }}</p>
       </div>
       <div>
         <select v-model="year" class="form-select">
@@ -33,6 +34,7 @@ for (let year = currentYear; year >= currentYear - 3; year--) {
 const year = ref(currentYear);
 const months = ref([]);
 const chart = ref(null);
+const sum = ref(0);
 
 const updateChart = async () => {
   try {
@@ -46,6 +48,7 @@ const updateChart = async () => {
     });
 
     if (response.data.success) {
+      console.log(response.data.data);
       months.value = [];
       for (let i = 1; i <= 12; i++) {
         months.value.push(`${i.toString().padStart(2, "0")}/${year.value}`);
@@ -57,6 +60,7 @@ const updateChart = async () => {
           },
           series: response.data.data,
         });
+        sum = response.data.data.map((sum.value = response.data.data.reduce((acc, curr) => acc + curr.data.reduce((a, b) => a + b, 0), 0)));
       }
     }
   } catch (error) {}

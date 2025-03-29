@@ -60,7 +60,7 @@ import { Toaster } from "vue-sonner";
       var t, n;
       s._subiz_init_2094850928430 || (r[k] && ((t = u.createElement(b)), (n = u.getElementsByTagName(b)[0]), (t.async = 1), (t.src = "https://" + r[k] + "/sbz/app.js?accid=" + z), n.parentNode.insertBefore(t, n), setTimeout(y, 2e3, k + 1)));
     })(0));
-})(window, document, "script", "subiz", "acsechqwbufaxcgaihov");
+})(window, document, "script", "subiz", "acseskyvupoyuxspbuxm");
 useHead({
   link: [
     { rel: "apple-touch-icon", type: "image/x-icon", href: "/src/assets/main/img/apple-touch-icon-57x57-precomposed.png" },

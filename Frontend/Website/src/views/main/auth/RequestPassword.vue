@@ -55,7 +55,7 @@ const submit_password = async () => {
     if (response.data.success) {
       toast.success(response.data.message);
       setTimeout(() => {
-        window.location.href = "/";
+        window.location.href = "/profile";
       }, 1000);
     } else {
       toast.error(response.data.message);
